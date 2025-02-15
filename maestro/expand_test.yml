@@ -1,6 +1,7 @@
-appId: dev.expo.eastestsexample # This is an example app id. Replace it with your app id.
+appId: host.exp.exponent
 ---
 - launchApp
+- tapOn: 'practice-expo-firebase-e2e-maestro'
 - tapOn: 'Explore.*'
 - tapOn: '.*File-based routing'
 - assertVisible: 'This app has two screens.*'
