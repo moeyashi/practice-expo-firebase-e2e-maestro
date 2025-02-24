@@ -1,5 +1,4 @@
 appId: host.exp.exponent
 ---
 - launchApp
-- tapOn: 'practice-expo-firebase-e2e-maestro'
 - assertVisible: 'Welcome!'
