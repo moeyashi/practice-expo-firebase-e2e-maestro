@@ -15,6 +15,18 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
+      - name: Set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install npm packages
+        run: npm install
+
+      - name: Prebuild
+        run: npm run android:prebuild
+
       - name: Set up Maestro
         run: curl -Ls https://get.maestro.mobile.dev | bash
 
@@ -24,8 +36,12 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
+
       - name: run tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: ~/.maestro/bin/maestro test maestro/home.yml
+          # `sleep 1` を入れて`npm run android`がバックグラウンドで実行されるように
+          script: |
+            npm run android & sleep 1
+            ~/.maestro/bin/maestro test maestro/home.yml
