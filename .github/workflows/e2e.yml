@@ -49,6 +49,7 @@ jobs:
           sudo udevadm trigger --name-match=kvm
 
       - name: run tests
+        id: run-maestro-tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
@@ -56,3 +57,11 @@ jobs:
           script: |
             eas build:run --latest
             ~/.maestro/bin/maestro test maestro/home.yml
+
+      - name: Upload failure report
+        id: upload-failure-report
+        if: ${{ steps.run-maestro-tests.outcome == 'failure' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: failure-report
+          path: /home/runner/.maestro/tests/*
