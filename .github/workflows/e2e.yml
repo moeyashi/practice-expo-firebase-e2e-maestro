@@ -15,19 +15,30 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
-      - name: Set up node
+      - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: "npm"
 
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          expo-cache: true
+          eas-version: latest
+          eas-cache: true
+          packager: npm
+          token: ${{ secrets.EXPO_TOKEN }}
+          patch-watchers: true
+
       - name: Install npm packages
-        run: npm install
+        run: npm ci
 
-      - name: Prebuild
-        run: npm run android:prebuild
+      - name: Build on EAS
+        run: eas build --platform android --non-interactive
 
-      - name: Set up Maestro
+      - name: Setup Maestro
         run: curl -Ls https://get.maestro.mobile.dev | bash
 
       # https://github.com/ReactiveCircus/android-emulator-runner?tab=readme-ov-file#usage--examples
@@ -43,5 +54,5 @@ jobs:
           api-level: 29
           # `sleep 1` を入れて`npm run android`がバックグラウンドで実行されるように
           script: |
-            npm run android & sleep 1
+            eas build run --latest
             ~/.maestro/bin/maestro test maestro/home.yml

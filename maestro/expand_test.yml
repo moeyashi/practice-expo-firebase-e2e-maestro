@@ -1,7 +1,6 @@
-appId: host.exp.exponent
+appId: com.anonymous.practiceexpofirebasee2emaestro
 ---
 - launchApp
-- tapOn: 'practice-expo-firebase-e2e-maestro'
 - tapOn: 'Explore.*'
 - tapOn: '.*File-based routing'
 - assertVisible: 'This app has two screens.*'
