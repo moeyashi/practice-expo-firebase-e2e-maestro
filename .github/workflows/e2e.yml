@@ -36,7 +36,7 @@ jobs:
         run: npm ci
 
       - name: Build on EAS
-        run: eas build --platform android --non-interactive
+        run: eas build --platform android --profile development --non-interactive
 
       - name: Setup Maestro
         run: curl -Ls https://get.maestro.mobile.dev | bash
