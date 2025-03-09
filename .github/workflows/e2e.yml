@@ -54,5 +54,5 @@ jobs:
           api-level: 29
           # `sleep 1` を入れて`npm run android`がバックグラウンドで実行されるように
           script: |
-            eas build run --latest
+            eas build:run --latest
             ~/.maestro/bin/maestro test maestro/home.yml
